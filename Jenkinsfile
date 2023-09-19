@@ -11,9 +11,6 @@ environment{
             steps {
                 sh 'mvn clean deploy'
             }
-
-
-
         }
     }
 }
