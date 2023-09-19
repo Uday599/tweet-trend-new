@@ -10,7 +10,7 @@ environment{
         stage("echo"){
             steps {
                 echo 'Hello World' 
-            }   
+            }    
         }
         stage("Build"){
             steps {
