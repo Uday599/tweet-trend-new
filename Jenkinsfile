@@ -8,7 +8,7 @@ environment{
 }
     stages {
         stage("echo"){
-            steps {
+            steps {  
                 echo 'Hello World' 
             }    
         }
