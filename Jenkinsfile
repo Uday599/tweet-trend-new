@@ -18,7 +18,7 @@ environment{
                 sh 'mvn clean deploy -Dmaven.test.skip==true'
                 echo "---------- Build Completed-----------"
             }
-        }
+        }  
         stage("Test"){
             steps {
                 echo "---------- Unit test started-----------"
