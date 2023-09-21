@@ -1,4 +1,6 @@
- def registry = 'https://valaxy99.jfrog.io'
+def registry = 'https://valaxy99.jfrog.io'
+def imageName = 'valaxy99.jfrog.io/valaxy-uday-docker-local/ttrend'
+def version   = '2.1.2'
 pipeline {
     agent {
         node 'maven-slave'
@@ -44,13 +46,13 @@ environment{
                 def qg = waitForQualityGate() // Reuse taskId previously collected by withSonarQubeEnv
                 if (qg.status != 'OK') {
                     error "Pipeline aborted due to quality gate failure: ${qg.status}"
-    }
-  }
-}
-            }
-}
+                                        }
+                                    }
+                                }
+                            }
+                        }
 
-         stage("Jar Publish") {
+        stage("Jar Publish") {
             steps {
             script {
                     echo '<--------------- Jar Publish Started --------------->'
@@ -72,12 +74,11 @@ environment{
                      server.publishBuildInfo(buildInfo)
                      echo '<--------------- Jar Publish Ended --------------->'  
             
-                }
-            }   
-        } 
+                            }
+                    }   
+                } 
 
-    def imageName = 'valaxy99.jfrog.io/valaxy-uday-docker-local/ttrend'
-    def version   = '2.1.2'
+    
         stage(" Docker Build ") {
             steps {
                 script {
