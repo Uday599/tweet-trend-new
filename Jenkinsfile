@@ -51,7 +51,7 @@ environment{
 }
 
          stage("Jar Publish") {
-        steps {
+            steps {
             script {
                     echo '<--------------- Jar Publish Started --------------->'
                      def server = Artifactory.newServer url:registry+"/artifactory" ,  credentialsId:"jfron-cred"
@@ -75,6 +75,30 @@ environment{
                 }
             }   
         } 
+
+    def imageName = 'valaxy99.jfrog.io/valaxy-uday-docker-local/ttrend'
+    def version   = '2.1.2'
+        stage(" Docker Build ") {
+            steps {
+                script {
+           echo '<--------------- Docker Build Started --------------->'
+           app = docker.build(imageName+":"+version)
+           echo '<--------------- Docker Build Ends --------------->'
+        }
+      }
+    }
+
+            stage (" Docker Publish "){
+        steps {
+            script {
+               echo '<--------------- Docker Publish Started --------------->'  
+                docker.withRegistry(registry, 'jfron-cred'){
+                    app.push()
+                }    
+               echo '<--------------- Docker Publish Ended --------------->'  
+            }
+        }
+    }
       
     }
 }
