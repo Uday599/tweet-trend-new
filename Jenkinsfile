@@ -1,16 +1,26 @@
 pipeline {
     agent {
-        node 'maven-slave'
+        node {
+            label 'maven'
+        }
     }
-
-environment{
-    PATH = "/opt/apache-maven-3.9.4/bin:$PATH"
+environment {
+    PATH = "/opt/apache-maven-3.9.7/bin:$PATH"	// we have setup mvn in path variable, so calling full path.
 }
-    stages {
-        stage("Build"){
+        
+        stage("build"){
             steps {
-                sh 'mvn clean deploy'
+                 echo "----------- build started ----------"
+                sh 'mvn clean deploy -Dmaven.test.skip=true'
+                 echo "----------- build complted ----------"
+            }
+        }
+        stage("test"){
+            steps{
+                echo "----------- unit test started ----------"
+                sh 'mvn surefire-report:report'
+                 echo "----------- unit test Complted ----------"
             }
         }
     }
-}
+
