@@ -7,7 +7,7 @@ pipeline {
 environment {
     PATH = "/opt/apache-maven-3.9.7/bin:$PATH"	// we have setup mvn in path variable, so calling full path.
 }
-        
+        stages{
         stage("build"){
             steps {
                  echo "----------- build started ----------"
@@ -24,3 +24,4 @@ environment {
         }
     }
 
+}
