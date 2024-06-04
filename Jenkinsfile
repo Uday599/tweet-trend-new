@@ -1,3 +1,4 @@
+def registry = 'https://spidy03.jfrog.io'
 pipeline {
     agent {
         node {
@@ -5,14 +6,9 @@ pipeline {
         }
     }
 environment {
-    PATH = "/opt/apache-maven-3.9.7/bin:$PATH"  // we have setup mvn in path variable, so calling full path.
+    PATH = "/opt/apache-maven-3.9.7/bin:$PATH"	// we have setup mvn in path variable, so calling full path.
 }
-    stages {
-        stage("Checkout"){
-            steps{
-                git branch: 'main', url: 'https://github.com/Uday599/tweet-trend-new.git'
-            }       // use this syntax only to clone git
-        }
+        stages{
         stage("build"){
             steps {
                  echo "----------- build started ----------"
@@ -28,4 +24,30 @@ environment {
             }
         }
     }
+
 }
+         stage("Jar Publish") {
+        steps {
+            script {
+                    echo '<--------------- Jar Publish Started --------------->'
+                     def server = Artifactory.newServer url:registry+"/artifactory" ,  credentialsId:"jfrog-cred"
+                     def properties = "buildid=${env.BUILD_ID},commitid=${GIT_COMMIT}";
+                     def uploadSpec = """{
+                          "files": [
+                            {
+                              "pattern": "jarstaging/(*)",
+                              "target": "libs-release-local/{1}",
+                              "flat": "false",
+                              "props" : "${properties}",
+                              "exclusions": [ "*.sha1", "*.md5"]        // exclude this files
+                            }
+                         ]
+                     }"""
+                     def buildInfo = server.upload(uploadSpec)
+                     buildInfo.env.collect()
+                     server.publishBuildInfo(buildInfo)
+                     echo '<--------------- Jar Publish Ended --------------->'  
+            
+            }
+        }   
+    }   
