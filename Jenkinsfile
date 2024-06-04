@@ -8,7 +8,8 @@ pipeline {
 environment {
     PATH = "/opt/apache-maven-3.9.7/bin:$PATH"	// we have setup mvn in path variable, so calling full path.
 }
-        stages{
+
+    stages{
         stage("build"){
             steps {
                  echo "----------- build started ----------"
@@ -23,11 +24,11 @@ environment {
                  echo "----------- unit test Complted ----------"
             }
         }
-    }
 
-    stage("Jar Publish") {
-        steps {
-            script {
+
+        stage("Jar Publish") {
+            steps {
+                script {
                     echo '<--------------- Jar Publish Started --------------->'
                      def server = Artifactory.newServer url:registry+"/artifactory" ,  credentialsId:"jfrog-cred"
                      def properties = "buildid=${env.BUILD_ID},commitid=${GIT_COMMIT}";
@@ -47,7 +48,8 @@ environment {
                      server.publishBuildInfo(buildInfo)
                      echo '<--------------- Jar Publish Ended --------------->'  
             
-            }
-        }   
-    } 
+                }
+            }   
+        } 
+    }
 }  
