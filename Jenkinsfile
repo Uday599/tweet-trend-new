@@ -1,4 +1,6 @@
 def registry = 'https://spidy03.jfrog.io'
+def imageName = 'spidy03.jfrog.io/spidy-docker/ttrend'
+def version   = '2.1.2'
 pipeline {
     agent {
         node {
@@ -52,8 +54,7 @@ environment {
             }   
         }
 
-   def imageName = 'spidy03.jfrog.io/spidy-docker/ttrend'
-   def version   = '2.1.2'
+  
     stage(" Docker Build ") {
       steps {
         script {
