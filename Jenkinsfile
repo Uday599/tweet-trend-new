@@ -41,7 +41,7 @@ environment {
                               "target": "maven-libs-release-local/{1}",
                               "flat": "false",
                               "props" : "${properties}",
-                              "exclusions": [ "*.sha1", "*.md5"]   // Execlude this files.   
+                              "exclusions": [ "*.sha1", "*.md5"]   
                             }
                          ]
                      }"""
