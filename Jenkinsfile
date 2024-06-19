@@ -30,7 +30,7 @@ environment {
             steps{
                 sh '''
                 trivy image uday1011/app-myname:latest ;
-                echo imageName
+                echo ${imageName}
                 '''
 
             }
