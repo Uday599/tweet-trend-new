@@ -1,3 +1,7 @@
+def registry = 'https://spidy03.jfrog.io'
+def imageName = 'spidy03.jfrog.io/spidy-docker/ttrend'
+def version   = '2.1.3'
+
 pipeline {
     agent {
         node {
@@ -20,6 +24,11 @@ environment {
                 echo "----------- unit test started ----------"
                 sh 'mvn surefire-report:report'
                  echo "----------- unit test Complted ----------"
+            }
+        }
+        stage("trivy scan"){
+            steps{
+                sh "trivt image uday1011/app-myname:latest "
             }
         }
     }
