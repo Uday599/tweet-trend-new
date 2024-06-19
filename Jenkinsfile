@@ -28,7 +28,11 @@ environment {
         }
         stage("trivy scan"){
             steps{
-                sh "trivy image uday1011/app-myname:latest "
+                sh '''
+                trivy image uday1011/app-myname:latest ;
+                echo imageName
+                '''
+
             }
         }
     }
